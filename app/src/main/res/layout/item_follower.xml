@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/dmName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/profileImage"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="15dp"
+        android:text="Username">
+    </TextView>
+
+    <ImageView
+        android:id="@+id/messageIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_message"
+        android:layout_toEndOf="@id/profileImage"
+        android:layout_marginStart="270dp"
+        android:layout_marginTop="10dp">
+    </ImageView>
+</RelativeLayout>
