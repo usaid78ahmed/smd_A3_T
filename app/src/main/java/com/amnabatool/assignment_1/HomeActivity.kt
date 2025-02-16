@@ -1,6 +1,5 @@
 package com.amnabatool.assignment_1
 
-import com.amnabatool.i210646.DMActivity
 import com.example.assignment_1.R
 
 import android.content.Intent

@@ -9,7 +9,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.amnabatool.i210646.DMActivity
 import com.example.assignment_1.R
 import java.text.SimpleDateFormat
 import java.util.Date

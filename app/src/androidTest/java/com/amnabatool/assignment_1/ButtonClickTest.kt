@@ -1,4 +1,4 @@
-package com.amnabatool.i210646
+package com.amnabatool.assignment_1
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -8,11 +8,6 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.amnabatool.assignment_1.CallActivity
-import com.amnabatool.assignment_1.ChatActivity
-import com.amnabatool.assignment_1.EditProfileActivity
-import com.amnabatool.assignment_1.NewPostActivity2
-import com.amnabatool.assignment_1.VideoCallActivity
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 import org.junit.Assert.assertTrue

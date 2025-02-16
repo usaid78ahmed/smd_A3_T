@@ -1,4 +1,4 @@
-package com.amnabatool.i210646
+package com.amnabatool.assignment_1
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -9,21 +9,6 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import com.amnabatool.assignment_1.CallActivity
-import com.amnabatool.assignment_1.CaptureActivity
-import com.amnabatool.assignment_1.ChatActivity
-import com.amnabatool.assignment_1.ContactsActivity
-import com.amnabatool.assignment_1.EditProfileActivity
-import com.amnabatool.assignment_1.FollowersActivity
-import com.amnabatool.assignment_1.FollowingActivity
-import com.amnabatool.assignment_1.HomeActivity
-import com.amnabatool.assignment_1.LoginActivity
-import com.amnabatool.assignment_1.NewPostActivity
-import com.amnabatool.assignment_1.NewPostActivity2
-import com.amnabatool.assignment_1.ProfileActivity
-import com.amnabatool.assignment_1.RegisterActivity
-import com.amnabatool.assignment_1.SearchActivity
-import com.amnabatool.assignment_1.VideoCallActivity
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

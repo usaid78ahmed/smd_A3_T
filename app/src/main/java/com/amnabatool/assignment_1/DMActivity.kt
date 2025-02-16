@@ -1,13 +1,10 @@
-package com.amnabatool.i210646
+package com.amnabatool.assignment_1
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.amnabatool.assignment_1.DMAdapter
-import com.amnabatool.assignment_1.DMUser
-import com.amnabatool.assignment_1.HomeActivity
 import com.example.assignment_1.R
 
 

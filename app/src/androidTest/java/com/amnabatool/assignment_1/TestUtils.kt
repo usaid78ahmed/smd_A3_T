@@ -1,4 +1,4 @@
-package com.amnabatool.i210646
+package com.amnabatool.assignment_1
 import android.view.View
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
