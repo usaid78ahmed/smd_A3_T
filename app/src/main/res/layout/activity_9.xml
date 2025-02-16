@@ -39,6 +39,7 @@
                     android:layout_weight="1"/>
 
                 <ImageView
+                    android:id="@+id/editProfileButton"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_edit"/>
@@ -119,6 +120,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/followersText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="followers"
@@ -142,6 +144,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/followingText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="following"
@@ -150,7 +153,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- GridView RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/postsRecyclerView"
                 android:layout_width="match_parent"

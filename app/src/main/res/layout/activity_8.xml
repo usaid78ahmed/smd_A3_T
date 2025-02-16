@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E0E0E0"
-    android:padding="16dp">
+    android:padding="16dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".VideoCallActivity">
 
     <TextView
         android:id="@+id/userName"
@@ -55,42 +57,45 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/circle1"
             android:src="@drawable/ic_dots"
             android:padding="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="23dp"/>
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/circle1"
             android:src="@drawable/ic_video1"
             android:padding="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="15dp"/>
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/circle1"
             android:src="@drawable/ic_speaker"
             android:padding="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="15dp"/>
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/circle1"
             android:src="@drawable/ic_blockmic"
             android:padding="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="15dp"/>
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/endCall"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/circle2"
             android:src="@drawable/ic_endcall"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:layout_marginEnd="23dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
