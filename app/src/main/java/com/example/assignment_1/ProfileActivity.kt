@@ -2,6 +2,8 @@ package com.example.assignment_1
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,10 +18,8 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_9)
 
-        // Find RecyclerView
         postsRecyclerView = findViewById(R.id.postsRecyclerView)
 
-        // Grid Layout Manager (3 columns)
         postsRecyclerView.layoutManager = GridLayoutManager(this, 3)
 
         val postImages = listOf(
@@ -28,9 +28,29 @@ class ProfileActivity : AppCompatActivity() {
             R.drawable.post7
         )
 
-        // Set Adapter
         postAdapter = PostAdapter(postImages)
         postsRecyclerView.adapter = postAdapter
+
+        // Navigate to EditProfileActivity
+        val editProfileButton = findViewById<ImageView>(R.id.editProfileButton)
+        editProfileButton.setOnClickListener {
+            val intent = Intent(this, EditProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Navigate to FollowersActivity
+        val followersText = findViewById<TextView>(R.id.followersText)
+        followersText.setOnClickListener {
+            val intent = Intent(this, FollowersActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Navigate to FollowingActivity
+        val followingText = findViewById<TextView>(R.id.followingText)
+        followingText.setOnClickListener {
+            val intent = Intent(this, FollowingActivity::class.java)
+            startActivity(intent)
+        }
 
         // Bottom Navigation Handling
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -54,6 +74,11 @@ class ProfileActivity : AppCompatActivity() {
                     startActivity(Intent(this, ContactsActivity::class.java))
                     overridePendingTransition(0, 0)
                     finish()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.nav_add -> {
+                    startActivity(Intent(this, NewPostActivity::class.java))
+                    overridePendingTransition(0, 0)
                     return@setOnItemSelectedListener true
                 }
             }
