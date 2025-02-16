@@ -16,7 +16,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_13)
 
-        // Initialize RecyclerView
         searchRecyclerView = findViewById(R.id.searchRecyclerView)
         searchRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -26,7 +25,6 @@ class SearchActivity : AppCompatActivity() {
             "Lily Thomas",
         )
 
-        // Set Adapter
         searchAdapter = SearchAdapter(recentSearches)
         searchRecyclerView.adapter = searchAdapter
 
@@ -52,6 +50,11 @@ class SearchActivity : AppCompatActivity() {
                     startActivity(Intent(this, ContactsActivity::class.java))
                     overridePendingTransition(0, 0)
                     finish()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.nav_add -> {
+                    startActivity(Intent(this, NewPostActivity::class.java))
+                    overridePendingTransition(0, 0)
                     return@setOnItemSelectedListener true
                 }
             }
