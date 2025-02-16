@@ -2,6 +2,8 @@ package com.example.assignment_1
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,11 +20,9 @@ class ContactsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_17)
 
-        // Find RecyclerViews
         contactsRecyclerView = findViewById(R.id.contactsRecyclerView)
         inviteRecyclerView = findViewById(R.id.inviteRecyclerView)
 
-        // Initialize Layout Managers
         contactsRecyclerView.layoutManager = LinearLayoutManager(this)
         inviteRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -38,13 +38,16 @@ class ContactsActivity : AppCompatActivity() {
             Contact("Christopher", R.drawable.user_profile12)
         )
 
-        // Initialize Adapters
         contactsAdapter = ContactAdapter(contactsList, isInvite = false)
         inviteAdapter = ContactAdapter(inviteList, isInvite = true) { contact ->
-            // Handle invite click
+
         }
 
-        // Set Adapters
+        val closeButton = findViewById<ImageView>(R.id.closeButton)
+        closeButton.setOnClickListener{
+            finish()
+        }
+
         contactsRecyclerView.adapter = contactsAdapter
         inviteRecyclerView.adapter = inviteAdapter
 
@@ -69,6 +72,11 @@ class ContactsActivity : AppCompatActivity() {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                     finish()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.nav_add -> {
+                    startActivity(Intent(this, NewPostActivity::class.java))
+                    overridePendingTransition(0, 0)
                     return@setOnItemSelectedListener true
                 }
                 R.id.nav_contacts -> return@setOnItemSelectedListener true // Stay on current screen
