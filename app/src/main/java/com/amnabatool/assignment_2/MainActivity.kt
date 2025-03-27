@@ -1,4 +1,4 @@
-package com.amnabatool.assignment_1
+package com.amnabatool.assignment_2
 import com.example.assignment_1.R
 
 import android.content.Intent

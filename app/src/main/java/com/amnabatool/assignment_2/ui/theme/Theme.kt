@@ -1,4 +1,4 @@
-package com.amnabatool.assignment_1.ui.theme
+package com.amnabatool.assignment_2.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

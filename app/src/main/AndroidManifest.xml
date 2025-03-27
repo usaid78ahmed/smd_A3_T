@@ -14,7 +14,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name="com.amnabatool.assignment_1.MainActivity"
+            android:name="com.amnabatool.assignment_2.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -25,82 +25,82 @@
         </activity>
 
         <activity
-            android:name="com.amnabatool.assignment_1.HomeActivity"
+            android:name="com.amnabatool.assignment_2.HomeActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.ContactsActivity"
+            android:name="com.amnabatool.assignment_2.ContactsActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.SearchActivity"
+            android:name="com.amnabatool.assignment_2.SearchActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.ProfileActivity"
+            android:name="com.amnabatool.assignment_2.ProfileActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.ChatActivity"
+            android:name="com.amnabatool.assignment_2.ChatActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.FollowersActivity"
+            android:name="com.amnabatool.assignment_2.FollowersActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.FollowingActivity"
+            android:name="com.amnabatool.assignment_2.FollowingActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.EditProfileActivity"
+            android:name="com.amnabatool.assignment_2.EditProfileActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.DMActivity"
+            android:name="com.amnabatool.assignment_2.DMActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.CallActivity"
+            android:name="com.amnabatool.assignment_2.CallActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.VideoCallActivity"
+            android:name="com.amnabatool.assignment_2.VideoCallActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.NewPostActivity"
+            android:name="com.amnabatool.assignment_2.NewPostActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.NewPostActivity2"
+            android:name="com.amnabatool.assignment_2.NewPostActivity2"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.CaptureActivity"
+            android:name="com.amnabatool.assignment_2.CaptureActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.RegisterActivity"
+            android:name="com.amnabatool.assignment_2.RegisterActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="com.amnabatool.assignment_1.LoginActivity"
+            android:name="com.amnabatool.assignment_2.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
