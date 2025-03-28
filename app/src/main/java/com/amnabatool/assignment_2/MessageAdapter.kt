@@ -1,26 +1,25 @@
 package com.amnabatool.assignment_2
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.net.Uri
+import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.assignment_1.R
+import com.amnabatool.assignment_2.R
 
 class MessageAdapter(
-    private val messages: List<Message>,
-    private val isVanishMode: Boolean
+    private var messages: MutableList<Message>,
+    private val isVanishMode: Boolean,
+    private val onMessageLongPressed: (position: Int) -> Unit
 ) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
     class MessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageText: TextView = view.findViewById(R.id.messageText)
         val messageTime: TextView = view.findViewById(R.id.messageTime)
         val profileImage: ImageView = view.findViewById(R.id.profileImage)
-        val messageContainer: RelativeLayout? =
-            view.findViewById<TextView>(R.id.messageText).parent as? RelativeLayout
+        val messageImage: ImageView = view.findViewById(R.id.messageImage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
@@ -31,23 +30,37 @@ class MessageAdapter(
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val message = messages[position]
-        holder.messageText.text = message.text
+
+        // Show text for TEXT messages, image for IMAGE messages
+        if (message.type == MessageType.TEXT) {
+            holder.messageText.visibility = View.VISIBLE
+            holder.messageImage.visibility = View.GONE
+            holder.messageText.text = message.text
+        } else if (message.type == MessageType.IMAGE) {
+            holder.messageText.visibility = View.GONE
+            holder.messageImage.visibility = View.VISIBLE
+            holder.messageImage.setImageURI(Uri.parse(message.imageUri))
+        } else {
+            // Handle POST or other types if needed
+        }
+
         holder.messageTime.text = message.time
 
+        // Alignment: sent messages align right, received align left.
         val params = holder.messageText.layoutParams as RelativeLayout.LayoutParams
         val timeParams = holder.messageTime.layoutParams as RelativeLayout.LayoutParams
+        val imageParams = holder.messageImage.layoutParams as RelativeLayout.LayoutParams
 
         if (message.isSentByUser) {
-            // Sent message (Align to Right)
             params.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE)
             params.removeRule(RelativeLayout.ALIGN_PARENT_START)
-            holder.profileImage.visibility = View.GONE
-
             timeParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE)
             timeParams.removeRule(RelativeLayout.ALIGN_PARENT_START)
+            imageParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE)
+            imageParams.removeRule(RelativeLayout.ALIGN_PARENT_START)
+            holder.profileImage.visibility = View.GONE
 
             if (isVanishMode) {
-                // vanish mode
                 holder.messageText.setBackgroundResource(R.drawable.button_background)
                 holder.messageText.setTextColor(
                     ContextCompat.getColor(holder.itemView.context, android.R.color.white)
@@ -56,7 +69,6 @@ class MessageAdapter(
                     ContextCompat.getColor(holder.itemView.context, android.R.color.white)
                 )
             } else {
-                // Normal mode for sent messages
                 holder.messageText.setBackgroundResource(R.drawable.button_background1)
                 holder.messageText.setTextColor(
                     ContextCompat.getColor(holder.itemView.context, android.R.color.black)
@@ -66,16 +78,15 @@ class MessageAdapter(
                 )
             }
         } else {
-            // Received message (Align to Left)
             params.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE)
             params.removeRule(RelativeLayout.ALIGN_PARENT_END)
-            holder.profileImage.visibility = View.VISIBLE
-
             timeParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE)
             timeParams.removeRule(RelativeLayout.ALIGN_PARENT_END)
+            imageParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE)
+            imageParams.removeRule(RelativeLayout.ALIGN_PARENT_END)
+            holder.profileImage.visibility = View.VISIBLE
 
             if (isVanishMode) {
-                // vanish mode
                 holder.messageText.setBackgroundResource(R.drawable.button_background)
                 holder.messageText.setTextColor(
                     ContextCompat.getColor(holder.itemView.context, android.R.color.white)
@@ -84,7 +95,6 @@ class MessageAdapter(
                     ContextCompat.getColor(holder.itemView.context, android.R.color.white)
                 )
             } else {
-                // normal mode
                 holder.messageText.setBackgroundResource(R.drawable.button_background1)
                 holder.messageText.setTextColor(
                     ContextCompat.getColor(holder.itemView.context, android.R.color.black)
@@ -95,10 +105,22 @@ class MessageAdapter(
             }
         }
 
-        // Reassign updated layout params
         holder.messageText.layoutParams = params
         holder.messageTime.layoutParams = timeParams
+        holder.messageImage.layoutParams = imageParams
+
+        // Long press for edit/delete
+        holder.itemView.setOnLongClickListener {
+            onMessageLongPressed(position)
+            true
+        }
     }
 
     override fun getItemCount(): Int = messages.size
+
+    fun updateMessages(newList: MutableList<Message>) {
+        messages.clear()
+        messages.addAll(newList)
+        notifyDataSetChanged()
+    }
 }

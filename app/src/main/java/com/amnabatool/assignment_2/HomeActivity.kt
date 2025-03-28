@@ -1,6 +1,6 @@
 package com.amnabatool.assignment_2
 
-import com.example.assignment_1.R
+import com.amnabatool.assignment_2.R
 
 import android.content.Intent
 import android.os.Bundle

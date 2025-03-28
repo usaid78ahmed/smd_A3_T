@@ -3,14 +3,17 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
+    // Add the Google services Gradle plugin
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.assignment_1"
+    namespace = "com.amnabatool.assignment_2"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.assignment_1"
+        applicationId = "com.amnabatool.assignment_2" +
+                ""
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -53,6 +56,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.material)
     implementation(libs.androidx.espresso.intents)
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,6 +67,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.material)
     implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:1.8.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
+    implementation("com.google.firebase:firebase-analytics")
 }
 
 

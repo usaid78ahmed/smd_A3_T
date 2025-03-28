@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.assignment_1.R
+import com.amnabatool.assignment_2.R
 
 class FollowersAdapter(
     private val followersList: List<Follower>

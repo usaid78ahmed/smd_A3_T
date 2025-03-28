@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.assignment_1.R
+import com.amnabatool.assignment_2.R
 
 class RecentAdapter(private val images: List<Int>) : RecyclerView.Adapter<RecentAdapter.ViewHolder>() {
 

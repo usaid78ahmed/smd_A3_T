@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
     android:background="#D1000000"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ChatActivity">
+    tools:context="com.amnabatool.assignment_2.ChatActivity">
 
+    <!-- Top Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,8 +20,7 @@
             android:id="@+id/backButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_return2">
-        </ImageView>
+            android:src="@drawable/ic_return2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,11 +29,10 @@
             android:text="Henry Benjamin"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_marginStart="10dp">
-        </TextView>
-
+            android:layout_marginStart="10dp" />
     </LinearLayout>
 
+    <!-- Profile Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,8 +43,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/user_profile10">
-        </ImageView>
+            android:src="@drawable/user_profile10" />
 
         <Button
             android:layout_width="150dp"
@@ -53,10 +52,10 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
-            android:background="@drawable/button_background">
-        </Button>
+            android:background="@drawable/button_background" />
     </LinearLayout>
 
+    <!-- Vanish Mode Notice -->
     <TextView
         android:id="@+id/vanishModeStatus"
         android:layout_width="match_parent"
@@ -66,40 +65,58 @@
         android:textSize="14sp"
         android:textColor="@color/white"
         android:gravity="center"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
+    <!-- RecyclerView for messages -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messageList"
         android:layout_width="match_parent"
         android:layout_height="370dp"
-        android:padding="16dp">
+        android:padding="16dp" />
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <LinearLayout
+    <!-- Input area changed to RelativeLayout -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:padding="12dp">
 
+        <!-- EditText with extra left/right padding -->
         <EditText
             android:id="@+id/messageEditText"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
+            android:layout_margin="8dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
             android:hint="Typing...."
             android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:background="@drawable/edit_text_background2">
-        </EditText>
+            android:background="@drawable/edit_text_background2" />
 
+        <!-- Attachment Button Overlaid on the left edge of EditText -->
+        <ImageView
+            android:id="@+id/attachmentButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignTop="@+id/messageEditText"
+            android:layout_alignBottom="@+id/messageEditText"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_attachment" />
+
+        <!-- Send Button Overlaid on the right edge of EditText -->
         <ImageView
             android:id="@+id/sendButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_send"
-            android:layout_marginStart="-35dp"
-            android:layout_marginTop="23dp">
-        </ImageView>
+            android:layout_alignTop="@+id/messageEditText"
+            android:layout_alignBottom="@+id/messageEditText"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_send" />
 
-    </LinearLayout>
+    </RelativeLayout>
+
 </LinearLayout>

@@ -3,7 +3,7 @@ package com.amnabatool.assignment_2
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.assignment_1.R
+import com.amnabatool.assignment_2.R
 
 
 class NewPostActivity2 : AppCompatActivity() {

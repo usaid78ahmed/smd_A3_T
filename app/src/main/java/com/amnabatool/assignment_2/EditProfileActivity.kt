@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.assignment_1.R
+import com.amnabatool.assignment_2.R
 
 class EditProfileActivity : AppCompatActivity() {
 
