@@ -53,12 +53,14 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImage"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:src="@drawable/user_profile0"/>
 
                 <TextView
+                    android:id="@+id/profileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Olivia Daniel"
@@ -68,6 +70,7 @@
                     android:layout_marginBottom="12dp"/>
 
                 <TextView
+                    android:id="@+id/profileBio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="two bananas for a pound, three bananas for a euro"
@@ -89,6 +92,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/postsCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="7"
@@ -112,6 +116,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/followersCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="410"
@@ -136,6 +141,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/followingCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="387"

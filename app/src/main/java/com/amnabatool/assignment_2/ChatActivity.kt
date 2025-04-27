@@ -1,19 +1,27 @@
 package com.amnabatool.assignment_2
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.database.ContentObserver
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.amnabatool.assignment_2.R
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
@@ -28,13 +36,17 @@ class ChatActivity : AppCompatActivity() {
     private var sendButton: ImageView? = null
     private var attachmentButton: ImageView? = null
 
-    // Local list of messages
     private var messages = mutableListOf<Message>()
 
-    private var isVanishMode = false // true for vanish mode, false for normal mode
+    private lateinit var prefs: SharedPreferences
+    private val PREFS_NAME = "chatPrefs"
+    private val KEY_VANISH_MODE = "vanish_mode"
+    private val KEY_VANISH_START = "vanish_start"
+    private var isVanishMode = false
+    private var vanishStart: Long? = null
+
     private lateinit var gestureDetector: GestureDetector
 
-    // Firestore
     private val db = FirebaseFirestore.getInstance()
     private val messagesRef = db.collection("messages")
 
@@ -42,28 +54,33 @@ class ChatActivity : AppCompatActivity() {
         private const val REQUEST_IMAGE_PICK = 100
         private const val FIVE_MINUTES_IN_MILLIS = 5 * 60 * 1000
         private const val ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000
+
+        // Request code for image read permission (READ_MEDIA_IMAGES for API 33+/READ_EXTERNAL_STORAGE otherwise)
+        private const val REQ_CODE_READ_IMAGES = 200
     }
+
+    // Screenshot observer to detect screenshots
+    private lateinit var screenshotObserver: ScreenshotObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Retrieve vanish mode flag from intent; normal mode if not specified.
-        isVanishMode = intent.getBooleanExtra("VANISH_MODE", false)
-        Log.d("ChatActivity", "onCreate: isVanishMode=$isVanishMode")
+        prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        isVanishMode = prefs.getBoolean(KEY_VANISH_MODE, false)
+        vanishStart = prefs.getLong(KEY_VANISH_START, 0L).takeIf { it > 0 }
+        Log.d("ChatActivity", "onCreate: isVanishMode=$isVanishMode, vanishStart=$vanishStart")
 
-        // Set layout based on vanish mode
+        // Choose layout based on vanish mode
         if (isVanishMode) {
             setContentView(R.layout.activity_6)
         } else {
             setContentView(R.layout.activity_5)
         }
 
-        // Set up back button to navigate to DMActivity
         findViewById<ImageView>(R.id.backButton)?.setOnClickListener {
             startActivity(Intent(this, DMActivity::class.java))
         }
 
-        // For normal mode, set up additional buttons
         if (!isVanishMode) {
             findViewById<ImageView>(R.id.callButton)?.setOnClickListener {
                 startActivity(Intent(this, CallActivity::class.java))
@@ -73,11 +90,9 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        // Retrieve any stored messages from intent extras (if switching modes)
         val storedMessages = intent.getParcelableArrayListExtra<Message>("MESSAGES")
         messages = storedMessages ?: mutableListOf()
 
-        // Set up RecyclerView and adapter
         recyclerView = findViewById(R.id.messageList)
         messageEditText = findViewById(R.id.messageEditText)
         sendButton = findViewById(R.id.sendButton)
@@ -92,7 +107,6 @@ class ChatActivity : AppCompatActivity() {
         sendButton?.setOnClickListener { sendMessage() }
         attachmentButton?.setOnClickListener { pickImageFromGallery() }
 
-        // Setup double-tap gesture for toggling vanish mode
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
                 toggleVanishMode()
@@ -100,13 +114,92 @@ class ChatActivity : AppCompatActivity() {
             }
         })
 
-        // Load messages from Firestore in either mode.
-        // In normal mode, we want all persistent messages.
-        // In vanish mode, we load messages but filter out ephemeral ones that expired.
         loadMessagesFromFirestore()
 
         if (messages.isNotEmpty()) {
             recyclerView.scrollToPosition(messages.size - 1)
+        }
+
+        // Request permission and register screenshot observer
+        requestReadImagesPermission()
+    }
+
+    private fun requestReadImagesPermission() {
+        val permissionsToRequest = mutableListOf<String>()
+
+        // For Android 13+, add notification permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+                permissionsToRequest.add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+
+        // Storage permission based on Android version
+        val storagePermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            Manifest.permission.READ_MEDIA_IMAGES
+        else
+            Manifest.permission.READ_EXTERNAL_STORAGE
+
+        if (ContextCompat.checkSelfPermission(this, storagePermission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(storagePermission)
+        }
+
+        if (permissionsToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                this,
+                permissionsToRequest.toTypedArray(),
+                REQ_CODE_READ_IMAGES
+            )
+        } else {
+            // All permissions already granted
+            registerScreenshotObserver()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQ_CODE_READ_IMAGES) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                registerScreenshotObserver()
+            } else {
+                Log.w("ChatActivity", "Read images permission denied. Screenshot detection may not work.")
+            }
+        }
+    }
+
+    private fun registerScreenshotObserver() {
+        // Create notification channel early
+        NotificationHelper.createNotificationChannel(this)
+
+        val handler = Handler()
+        screenshotObserver = ScreenshotObserver(handler, this) {
+            // When a screenshot is detected, send a local notification
+            Log.d("ChatActivity", "Screenshot detected! Sending notification...")
+            NotificationHelper.sendLocalNotification(this)
+        }
+
+        // Register for EXTERNAL content
+        contentResolver.registerContentObserver(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            true,
+            screenshotObserver
+        )
+
+        // Also register for INTERNAL content (some devices store screenshots here)
+        contentResolver.registerContentObserver(
+            MediaStore.Images.Media.INTERNAL_CONTENT_URI,
+            true,
+            screenshotObserver
+        )
+
+        Log.d("ChatActivity", "ScreenshotObserver registered for both INTERNAL and EXTERNAL URIs")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::screenshotObserver.isInitialized) {
+            contentResolver.unregisterContentObserver(screenshotObserver)
         }
     }
 
@@ -125,17 +218,24 @@ class ChatActivity : AppCompatActivity() {
                 if (snapshots != null) {
                     val newList = mutableListOf<Message>()
                     val now = System.currentTimeMillis()
+                    val vanishStartLocal = vanishStart
                     for (doc in snapshots.documents) {
                         val msg = doc.toObject(Message::class.java)
                         if (msg != null) {
                             val updatedMsg = msg.copy(id = doc.id)
-                            // If the message is ephemeral (vanish mode), only add if still valid.
                             if (updatedMsg.isEphemeral && updatedMsg.vanishDeadline != null) {
-                                if (now < updatedMsg.vanishDeadline) {
-                                    newList.add(updatedMsg)
+                                if (vanishStartLocal != null) {
+                                    if (updatedMsg.creationTime >= vanishStartLocal && now < updatedMsg.vanishDeadline) {
+                                        newList.add(updatedMsg)
+                                    } else if (now >= updatedMsg.vanishDeadline) {
+                                        doc.reference.delete()
+                                    }
                                 } else {
-                                    // Optionally delete expired ephemeral messages
-                                    doc.reference.delete()
+                                    if (now < updatedMsg.vanishDeadline) {
+                                        newList.add(updatedMsg)
+                                    } else {
+                                        doc.reference.delete()
+                                    }
                                 }
                             } else {
                                 newList.add(updatedMsg)
@@ -150,16 +250,15 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun sendMessage() {
-        val messageText = messageEditText?.text.toString().trim()
-        if (messageText.isNotEmpty()) {
+        val text = messageEditText?.text.toString().trim()
+        if (text.isNotEmpty()) {
             val timeStamp = SimpleDateFormat("hh:mm", Locale.getDefault()).format(Date())
             val creation = System.currentTimeMillis()
-            // For vanish mode, mark new messages as ephemeral with a vanish deadline 24 hours later.
             val ephemeral = isVanishMode
             val vanishTime = if (ephemeral) creation + ONE_DAY_IN_MILLIS else null
 
             val newMessage = Message(
-                text = messageText,
+                text = text,
                 isSentByUser = true,
                 time = timeStamp,
                 creationTime = creation,
@@ -172,7 +271,6 @@ class ChatActivity : AppCompatActivity() {
             recyclerView.scrollToPosition(messages.size - 1)
             messageEditText?.text?.clear()
 
-            // Save to Firestore (both normal and ephemeral messages are saved)
             messagesRef.add(newMessage).addOnSuccessListener { docRef ->
                 val index = messages.indexOf(newMessage)
                 if (index != -1) {
@@ -181,7 +279,7 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
 
-            // Simulate bot response after 1 second
+            // Simulate a bot reply after a delay
             recyclerView.postDelayed({
                 val botReply = "Nice to hear that!"
                 val botTime = SimpleDateFormat("hh:mm", Locale.getDefault()).format(Date())
@@ -195,7 +293,8 @@ class ChatActivity : AppCompatActivity() {
                     time = botTime,
                     creationTime = botCreation,
                     isEphemeral = botEphemeral,
-                    vanishDeadline = botVanish
+                    vanishDeadline = botVanish,
+                    type = MessageType.TEXT
                 )
                 messages.add(botMessage)
                 messageAdapter.notifyItemInserted(messages.size - 1)
@@ -257,7 +356,6 @@ class ChatActivity : AppCompatActivity() {
         if (position < 0 || position >= messages.size) return
         val message = messages[position]
         val currentTime = System.currentTimeMillis()
-        // Allow edit/delete only within 5 minutes for user-sent messages
         if (currentTime - message.creationTime <= FIVE_MINUTES_IN_MILLIS && message.isSentByUser) {
             val options = arrayOf("Edit", "Delete")
             AlertDialog.Builder(this)
@@ -291,8 +389,8 @@ class ChatActivity : AppCompatActivity() {
                     val updatedMessage = message.copy(text = newText)
                     messages[position] = updatedMessage
                     messageAdapter.notifyItemChanged(position)
-                    if (message.id != null) {
-                        messagesRef.document(message.id).update("text", newText)
+                    message.id?.let {
+                        messagesRef.document(it).update("text", newText)
                     }
                 }
             }
@@ -300,20 +398,62 @@ class ChatActivity : AppCompatActivity() {
             .show()
     }
 
-       private fun deleteMessage(position: Int) {
-        val messageToDelete = messages[position]
+    private fun deleteMessage(position: Int) {
+        val msg = messages[position]
         messages.removeAt(position)
         messageAdapter.notifyItemRemoved(position)
-        if (messageToDelete.id != null) {
-            messagesRef.document(messageToDelete.id).delete()
+        msg.id?.let {
+            messagesRef.document(it).delete()
         }
     }
 
     private fun toggleVanishMode() {
-        // Pass current messages so that normal messages persist
+        val now = System.currentTimeMillis()
+        if (!isVanishMode) {
+            prefs.edit().putBoolean(KEY_VANISH_MODE, true).apply()
+            prefs.edit().putLong(KEY_VANISH_START, now).apply()
+
+            val marker = Message(
+                text = "You’ve turned on vanish mode. New messages will disappear in 24 hours after everyone has seen them.",
+                isSentByUser = false,
+                time = SimpleDateFormat("hh:mm", Locale.getDefault()).format(Date(now)),
+                creationTime = now,
+                isEphemeral = true,
+                vanishDeadline = now + ONE_DAY_IN_MILLIS,
+                type = MessageType.SYSTEM
+            )
+            messagesRef.add(marker).addOnSuccessListener { docRef ->
+                messages.add(marker.copy(id = docRef.id))
+                messageAdapter.notifyItemInserted(messages.size - 1)
+                recyclerView.scrollToPosition(messages.size - 1)
+                restartActivityWithMode(true)
+            }
+        } else {
+            prefs.edit().putBoolean(KEY_VANISH_MODE, false).apply()
+            prefs.edit().remove(KEY_VANISH_START).apply()
+
+            val marker = Message(
+                text = "You’ve turned OFF vanish mode. Ephemeral messages sent in vanish mode will still vanish after 24 hours.",
+                isSentByUser = false,
+                time = SimpleDateFormat("hh:mm", Locale.getDefault()).format(Date(now)),
+                creationTime = now,
+                isEphemeral = true,
+                vanishDeadline = now + ONE_DAY_IN_MILLIS,
+                type = MessageType.SYSTEM
+            )
+            messagesRef.add(marker).addOnSuccessListener { docRef ->
+                messages.add(marker.copy(id = docRef.id))
+                messageAdapter.notifyItemInserted(messages.size - 1)
+                recyclerView.scrollToPosition(messages.size - 1)
+                restartActivityWithMode(false)
+            }
+        }
+    }
+
+    private fun restartActivityWithMode(vanish: Boolean) {
         val intent = Intent(this, ChatActivity::class.java).apply {
             putParcelableArrayListExtra("MESSAGES", ArrayList(messages))
-            putExtra("VANISH_MODE", !isVanishMode)
+            putExtra("VANISH_MODE", vanish)
         }
         startActivity(intent)
         finish()

@@ -13,7 +13,7 @@ class NewPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_14)
-
+        val uid = intent.getStringExtra("uid") ?: "No UID"
 
         val closeButton = findViewById<ImageView>(R.id.closeButton)
         val nextText = findViewById<TextView>(R.id.nextText)
@@ -45,6 +45,7 @@ class NewPostActivity : AppCompatActivity() {
 
         cameraIcon.setOnClickListener{
             val intent = Intent(this, CaptureActivity::class.java)
+            intent.putExtra("uid", uid)
             startActivity(intent)
         }
 

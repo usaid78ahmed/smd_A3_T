@@ -5,6 +5,7 @@ plugins {
     id("kotlin-parcelize")
     // Add the Google services Gradle plugin
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -58,6 +59,12 @@ dependencies {
     implementation(libs.androidx.espresso.intents)
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.appcheck.ktx)
+    implementation(libs.firebase.appcheck.debug)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.storage.ktx)
+    implementation(libs.androidx.junit.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -69,6 +76,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:1.8.0")
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.circleimageview)
+    implementation("io.agora.rtc:full-sdk:4.5.1")
+    implementation ("com.google.firebase:firebase-messaging:23.0.5")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1")
+
 }
 
 

@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amnabatool.assignment_2.R
 
-class SearchAdapter(private val searchList: List<String>) :
+class SearchAdapter(private var searchList: List<String>) :
     RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -25,4 +25,8 @@ class SearchAdapter(private val searchList: List<String>) :
     }
 
     override fun getItemCount(): Int = searchList.size
+    fun updateData(newData: List<String>) {
+        searchList = newData
+        notifyDataSetChanged()
+    }
 }

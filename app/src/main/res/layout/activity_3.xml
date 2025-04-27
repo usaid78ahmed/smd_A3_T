@@ -34,7 +34,6 @@
                     android:textStyle="bold">
                 </TextView>
 
-
                 <ImageView
                     android:id="@+id/dmicon"
                     android:layout_width="24dp"
@@ -56,109 +55,14 @@
                 </TextView>
             </RelativeLayout>
 
-            <HorizontalScrollView
+            <!-- Replace HorizontalScrollView with RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/storiesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:layout_gravity="center_vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/profileImage"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/user_profile0"
-                            android:layout_margin="8dp">
-                        </ImageView>
-
-                        <ImageView
-                            android:id="@+id/addIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_add"
-                            android:layout_alignBottom="@id/profileImage"
-                            android:layout_alignEnd="@id/profileImage"
-                            android:background="@drawable/circle3">
-                        </ImageView>
-                    </RelativeLayout>
-
-
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/user_profile1"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/circle"
-                        android:padding="3dp">
-                    </ImageView>
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/user_profile2"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/circle"
-                        android:padding="3dp">
-                    </ImageView>
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/user_profile3"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/circle"
-                        android:padding="3dp">
-                    </ImageView>
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/user_profile4"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/circle"
-                        android:padding="3dp">
-                    </ImageView>
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/user_profile5"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/circle"
-                        android:padding="3dp">
-                    </ImageView>
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/user_profile6"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/circle"
-                        android:padding="3dp">
-                    </ImageView>
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/user_profile7"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/circle"
-                        android:padding="3dp">
-                    </ImageView>
-
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
+                android:orientation="horizontal"
+                android:paddingVertical="8dp"
+                android:clipToPadding="false"/>
 
             <View
                 android:layout_width="match_parent"
@@ -167,207 +71,12 @@
                 android:layout_marginTop="16dp">
             </View>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/postsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/user_profile8"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/circle">
-                </ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Emily James"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_vertical">
-                </TextView>
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:src="@drawable/user_image1"
-                android:layout_marginTop="-25dp">
-            </ImageView>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="-15dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_likeicon">
-                </ImageView>
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_commenticon"
-                    android:layout_marginLeft="10dp">
-                </ImageView>
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_dmicon"
-                    android:layout_marginLeft="10dp">
-                </ImageView>
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_saveicon"
-                    android:layout_marginStart="230dp">
-                </ImageView>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#96000000"
-                android:layout_marginTop="10dp">
-            </View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Emily James"
-                    android:textColor="@color/black"
-                    android:textStyle="bold">
-                </TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Had a great hike"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="5dp">
-                </TextView>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#96000000"
-                android:layout_marginTop="10dp">
-            </View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/user_profile9"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/circle">
-                </ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kadin Bergson"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_vertical">
-                </TextView>
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:src="@drawable/user_image2"
-                android:layout_marginTop="-25dp">
-            </ImageView>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="-15dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_likeicon">
-                </ImageView>
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_commenticon"
-                    android:layout_marginLeft="10dp">
-                </ImageView>
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_dmicon"
-                    android:layout_marginLeft="10dp">
-                </ImageView>
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_saveicon"
-                    android:layout_marginStart="230dp">
-                </ImageView>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#96000000"
-                android:layout_marginTop="10dp">
-            </View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kadin Bergson"
-                    android:textColor="@color/black"
-                    android:textStyle="bold">
-                </TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Beautiful sunset"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="5dp">
-                </TextView>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#96000000"
-                android:layout_marginTop="10dp">
-            </View>
+                android:nestedScrollingEnabled="false"
+                android:layout_marginTop="16dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

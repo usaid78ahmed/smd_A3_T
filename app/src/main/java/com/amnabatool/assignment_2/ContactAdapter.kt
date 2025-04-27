@@ -7,19 +7,19 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.amnabatool.assignment_2.R
 
 class ContactAdapter(
     private val contactsList: List<Contact>,
-    private val isInvite: Boolean, // Flag to determine type
-    private val onInviteClick: ((Contact) -> Unit)? = null // Click listener for invites
+    private val isInvite: Boolean,
+    private val isFollowButton: Boolean = false,
+    private val onActionClick: ((Contact) -> Unit)? = null
 ) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val profileImage: ImageView = view.findViewById(R.id.profileImage)
         val nameTextView: TextView = view.findViewById(R.id.dmName)
-        val chatIcon: ImageView? = view.findViewById(R.id.messageIcon) // Only for contacts
-        val inviteButton: Button? = view.findViewById(R.id.inviteButton) // Only for invites
+        val chatIcon: ImageView? = view.findViewById(R.id.messageIcon)
+        val actionButton: Button? = view.findViewById(R.id.inviteButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -37,12 +37,29 @@ class ContactAdapter(
         holder.nameTextView.text = contact.name
 
         if (isInvite) {
-            holder.inviteButton?.setOnClickListener {
-                onInviteClick?.invoke(contact)
+            // If it's an invite (follow request), button shows "Accept"
+            holder.actionButton?.apply {
+                visibility = View.VISIBLE
+                text = if (isFollowButton) "Follow" else "Accept"
+                setOnClickListener {
+                    onActionClick?.invoke(contact)
+                }
             }
+            holder.chatIcon?.visibility = View.GONE
         } else {
-            holder.chatIcon?.setOnClickListener {
-                // Handle chat icon click
+            // For users in contacts, show "Follow" button
+            if (isFollowButton) {
+                holder.actionButton?.apply {
+                    visibility = View.VISIBLE
+                    text = "Follow"
+                    setOnClickListener {
+                        onActionClick?.invoke(contact)
+                    }
+                }
+                holder.chatIcon?.visibility = View.GONE
+            } else {
+                holder.actionButton?.visibility = View.GONE
+                holder.chatIcon?.visibility = View.VISIBLE
             }
         }
     }
